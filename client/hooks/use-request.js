@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, {useState} from "react";
 
-export default ({url, method, body, onSucess}) => {
+export default ({url, method, body, onSuccess}) => {
     const [errors, setErrors] = useState(null);
 
     const doRequest = async () => {
@@ -9,8 +9,8 @@ export default ({url, method, body, onSucess}) => {
             setErrors(null);
             const response = await axios[method](url, body);
 
-            if (onSucess) {
-                onSucess(response.data);
+            if (onSuccess) {
+                onSuccess(response.data);
             }
 
             return response.data;
