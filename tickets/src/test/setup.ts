@@ -1,18 +1,20 @@
-import {MongoMemoryServer} from "mongodb-memory-server";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import {app} from "../app";
+import { app } from "../app";
 import request from "supertest";
+import jwt from "jsonwebtoken";
 
 let mongo: any;
 
 declare global {
-    var getAuthCookie: () => Promise<string[]>;
+    var getAuthCookie: () => string[];
 }
 
 jest.setTimeout(100000);
 
 beforeAll(async () => {
     process.env.JWT_KEY = "asdf";
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
     mongo = await MongoMemoryServer.create();
     const mongoUri = mongo.getUri();
@@ -33,17 +35,25 @@ afterAll(async () => {
     await mongoose.connection.close();
 });
 
-global.getAuthCookie = async () => {
-    const email = "test@test.com";
-    const password = "password";
+global.getAuthCookie = () => {
+    // Build a JWT payload. {id, email}
+    const payload = {
+        id: new mongoose.Types.ObjectId().toHexString(),
+        email: "test@test.com"
+    };
 
-    const response = await request(app)
-        .post("/api/users/signup")
-        .send({
-            email, password
-        })
-        .expect(201);
+    // Create the JWT!
+    const token = jwt.sign(payload, process.env.JWT_KEY!);
 
-    const cookie = response.get("Set-Cookie");
-    return cookie
+    // Build Session Object. {jwt: MY_JWT}
+    const session = { jwt: token };
+
+    // Turn that session into JSON
+    const sessionJSON = JSON.stringify(session);
+
+    // Take JSON and encode it as base64
+    const base64 = Buffer.from(sessionJSON).toString("base64");
+
+    // return a string that the cookie with the encoded data.
+    return [`express:sess=${base64}`];
 };

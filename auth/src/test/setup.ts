@@ -13,6 +13,7 @@ jest.setTimeout(100000);
 
 beforeAll(async () => {
     process.env.JWT_KEY = "asdf";
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
     mongo = await MongoMemoryServer.create();
     const mongoUri = mongo.getUri();

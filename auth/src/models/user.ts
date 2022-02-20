@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {Password} from "../services/password";
+import { Password } from "../services/password";
 
 // An interface that describes the properties
 // that are required to create a new User
@@ -55,4 +55,4 @@ userSchema.statics.build = (attrs: UserAttrs) => {
 };
 
 const User = mongoose.model<UserDoc, UserModel>("User", userSchema);
-export {User};
+export { User };
