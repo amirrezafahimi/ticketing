@@ -13,7 +13,7 @@ spec:
         app: tickets
     spec:
       containers:
-        - name: auth
+        - name: tickets
           image: amirrezafahimi/tickets
           env:
             - name: JWT_KEY
