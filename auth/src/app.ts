@@ -7,8 +7,7 @@ import {currentUserRouter} from "./routes/current-user";
 import {signInRouter} from "./routes/signin";
 import {signOutRouter} from "./routes/signout";
 import {signUpRouter} from "./routes/signup";
-import {errorHandler} from "./middlewares/error-handlers";
-import {NotFoundError} from "./errors/not-found-error";
+import {errorHandler, NotFoundError} from "@k8s-course/common";
 
 const app = express();
 app.set('trust proxy', true);

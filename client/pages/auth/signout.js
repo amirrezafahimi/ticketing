@@ -9,7 +9,7 @@ export default () => {
         body: {},
         onSuccess: () => Router.push("/")
     });
-    
+
     useEffect(() => {
         doRequest();
     }, []);
