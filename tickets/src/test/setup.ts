@@ -1,6 +1,6 @@
-import { MongoMemoryServer } from "mongodb-memory-server";
+import {MongoMemoryServer} from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { app } from "../app";
+import {app} from "../app";
 import request from "supertest";
 import jwt from "jsonwebtoken";
 
@@ -11,6 +11,8 @@ declare global {
 }
 
 jest.setTimeout(100000);
+
+jest.mock("../nats-wrapper");
 
 beforeAll(async () => {
     process.env.JWT_KEY = "asdf";
@@ -23,6 +25,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+    jest.clearAllMocks();
     const collections = await mongoose.connection.db.collections();
 
     for (let collection of collections) {
@@ -46,7 +49,7 @@ global.getAuthCookie = () => {
     const token = jwt.sign(payload, process.env.JWT_KEY!);
 
     // Build Session Object. {jwt: MY_JWT}
-    const session = { jwt: token };
+    const session = {jwt: token};
 
     // Turn that session into JSON
     const sessionJSON = JSON.stringify(session);
