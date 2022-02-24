@@ -24,6 +24,11 @@ app.use(indexOrderRouter);
 app.use(newOrderRouter);
 app.use(showOrderRouter);
 
+app.get("/", (req: Request, res: Response) => {
+    console.log(process.env.HOSTNAME! + " is ready");
+    res.status(200).send();
+});
+
 app.all("*", async (req: Request, res: Response) => {
     throw new NotFoundError();
 });

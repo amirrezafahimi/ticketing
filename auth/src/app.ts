@@ -19,6 +19,11 @@ app.use(
     })
 );
 
+app.get("/", (req: Request, res: Response) => {
+    console.log(process.env.HOSTNAME! + " is ready");
+    res.status(200).send();
+});
+
 app.use(currentUserRouter);
 app.use(signInRouter);
 app.use(signOutRouter);
