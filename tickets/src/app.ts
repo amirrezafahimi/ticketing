@@ -25,7 +25,6 @@ app.use(indexTicketRouter);
 app.use(updateTicketRouter);
 
 app.get("/", (req: Request, res: Response) => {
-    console.log(process.env.HOSTNAME! + " is ready");
     res.status(200).send();
 });
 

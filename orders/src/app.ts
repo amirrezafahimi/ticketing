@@ -25,7 +25,6 @@ app.use(newOrderRouter);
 app.use(showOrderRouter);
 
 app.get("/", (req: Request, res: Response) => {
-    console.log(process.env.HOSTNAME! + " is ready");
     res.status(200).send();
 });
 
