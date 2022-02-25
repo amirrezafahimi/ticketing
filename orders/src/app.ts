@@ -3,10 +3,10 @@ import 'express-async-errors';
 import {json} from 'body-parser';
 import cookieSession from "cookie-session";
 import {errorHandler, NotFoundError, currentUser} from "@k8s-course/common";
-import {deleteOrderRouter} from "../routes/delete";
-import {indexOrderRouter} from "../routes";
-import {newOrderRouter} from "../routes/new";
-import {showOrderRouter} from "../routes/sohw";
+import {deleteOrderRouter} from "./routes/delete";
+import {indexOrderRouter} from "./routes";
+import {newOrderRouter} from "./routes/new";
+import {showOrderRouter} from "./routes/sohw";
 
 const app = express();
 app.set('trust proxy', true);
