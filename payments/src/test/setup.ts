@@ -1,18 +1,19 @@
 import {MongoMemoryServer} from "mongodb-memory-server";
 import mongoose from "mongoose";
-import {app} from "../app";
-import request from "supertest";
 import jwt from "jsonwebtoken";
 
 let mongo: any;
 
 declare global {
-    var getAuthCookie: () => string[];
+    var getAuthCookie: (id?: string) => string[];
 }
 
 jest.setTimeout(100000);
 
 jest.mock("../nats-wrapper");
+
+process.env.STRIPE_KEY =
+    "sk_test_51KaGRMLARznQMK0MZEAYWz9Spx0cRlltwdcpFP2xD3FZQOY76p0H6q5THsmQbsQ2FBE8ns3n19Y8a5zKMirRornl00MBOOPLFw";
 
 beforeAll(async () => {
     process.env.JWT_KEY = "asdf";
@@ -38,10 +39,10 @@ afterAll(async () => {
     await mongoose.connection.close();
 });
 
-global.getAuthCookie = () => {
+global.getAuthCookie = (id?: string) => {
     // Build a JWT payload. {id, email}
     const payload = {
-        id: new mongoose.Types.ObjectId().toHexString(),
+        id: id || new mongoose.Types.ObjectId().toHexString(),
         email: "test@test.com"
     };
 

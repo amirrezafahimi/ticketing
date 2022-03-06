@@ -35,6 +35,11 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: STRIPE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: STRIPE_KEY
+                  name: stripe-secret
 ---
 apiVersion: v1
 kind: Service
